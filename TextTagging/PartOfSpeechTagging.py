@@ -12,7 +12,7 @@ spacy_doc = nlp(emma_ja)
 print("Spacy Document values")
 print(spacy_doc)
 
-pos_df = pd.DataFrame(columns = ['token', 'pos_tags'])
+pos_df = pd.DataFrame(columns = ['token', 'pos_tag'])
 
 for token in spacy_doc:
     pos_df = pd.concat([pos_df, pd.DataFrame.from_records([{'token': token.text, 'pos_tag' : token.pos_}])], ignore_index=True)
@@ -20,3 +20,6 @@ for token in spacy_doc:
 pos_df.head(15)
 print(pos_df.head(15))
 print ()
+
+pos_df_counts = pos_df.groupby(['token','pos_tag']).size().reset_index(name='counts').sort_values(by='counts', ascending=False)
+print(pos_df_counts.head(20))
