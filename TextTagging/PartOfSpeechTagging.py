@@ -19,3 +19,4 @@ for token in spacy_doc:
 
 pos_df.head(15)
 print(pos_df.head(15))
+print ()
