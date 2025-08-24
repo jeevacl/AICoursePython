@@ -13,3 +13,9 @@ print("Spacy Document values")
 print(spacy_doc)
 
 pos_df = pd.DataFrame(columns = ['token', 'pos_tags'])
+
+for token in spacy_doc:
+    pos_df = pd.concat([pos_df, pd.DataFrame.from_records([{'token': token.text, 'pos_tag' : token.pos_}])], ignore_index=True)
+
+pos_df.head(15)
+print(pos_df.head(15))
