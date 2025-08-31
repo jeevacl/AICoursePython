@@ -1,3 +1,4 @@
+# This file uses environment 3.12
 # --- 1. Import Necessary Libraries ---
 
 # pandas is used for data manipulation and analysis, particularly for handling the CSV data.
