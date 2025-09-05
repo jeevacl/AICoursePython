@@ -94,3 +94,129 @@ print(f"\nAccuracy of Logistic Regression Model: {accuracy:.2f}")
 # This report includes precision, recall, f1-score, and support for each class.
 # zero_division=0 handles cases where a class has no predicted samples, preventing errors.
 print(classification_report(y_test, y_pred_lr, zero_division=0))
+
+# --- Train and Evaluate Naive Bayes Model ---
+# Multinomial Naive Bayes is a probabilistic algorithm that is particularly well-suited for
+# text classification tasks involving word counts.
+
+# Import the Multinomial Naive Bayes classifier from scikit-learn.
+from sklearn.naive_bayes import MultinomialNB
+
+# Initialize the Multinomial Naive Bayes model and train it in one step.
+# .fit(X_train, y_train) teaches the model by calculating the probability of each word
+# appearing in each class (positive vs. negative) based on the training data.
+naive_bayes = MultinomialNB().fit(X_train, y_train)
+
+# Use the trained Naive Bayes model to make predictions on the unseen test features (X_test).
+y_pred_nb = naive_bayes.predict(X_test)
+
+# Calculate and print the accuracy of the Naive Bayes model.
+print("\nAccuracy of Naive Bays Model")
+# Sample Output: 0.83
+print(accuracy_score(y_test, y_pred_nb))
+
+# Generate and print a detailed classification report for the Naive Bayes model.
+print("classification_report for Naive Bays Model")
+# Sample Output:
+#               precision    recall  f1-score   support
+#
+#     negative       0.75      1.00      0.86         3
+#     positive       1.00      0.67      0.80         3
+#
+#     accuracy                           0.83         6
+#    macro avg       0.88      0.83      0.83         6
+# weighted avg       0.88      0.83      0.83         6
+print(classification_report(y_test, y_pred_nb, zero_division=0))
+
+# --- Analysis of Classification Report Metrics ---
+
+# --- Core Concepts Explained of  Naive Bays Model Output ---
+#
+# Precision: Of all the times the model predicted a certain class (e.g., "positive"), how often was it actually correct?
+#            This metric is about the quality of the predictions.
+#            High Precision: When the model predicts a class, it's very likely to be right.
+#
+# Recall (Sensitivity): Of all the actual instances of a class, how many did the model successfully find?
+#                       This metric is about the completeness of the predictions.
+#                       High Recall: The model is good at finding all instances of a class.
+#
+# F1-Score: The harmonic mean (a type of average) of Precision and Recall. It provides a single score that balances both metrics.
+#           It's especially useful when you have an uneven class distribution (imbalanced dataset).
+#
+# Support: This is simply the number of actual occurrences of the class in your dataset. It gives context to the other metrics.
+#
+# --- Analysis of Your Model's Performance ---
+# Here’s what a specific output might be telling you:
+#
+# === negative Class ===
+# Precision: 0.00
+# This means that every single time the model predicted an instance was "negative," it was wrong.
+#
+# Recall: 0.00
+# This means the model failed to identify any of the actual "negative" instances that existed in the data.
+#
+# F1-Score: 0.00
+# Since both precision and recall are zero, the F1-score is also zero.
+#
+# Support: 1
+# This is the key to understanding the problem. There was only one actual "negative" sample in the test data.
+#
+# Conclusion for negative: The model is completely failing on this class. It has not learned how to identify "negative" instances at all.
+#
+# === positive Class ===
+# Precision: 0.80 (80%)
+# When the model predicted an instance was "positive," it was correct 80% of the time.
+#
+# Recall: 0.80 (80%)
+# The model successfully found 80% of all the actual "positive" instances in the data.
+#
+# F1-Score: 0.80 (80%)
+# This is a good, balanced score for this class.
+#
+# Support: 5
+# There were five actual "positive" samples in the test data.
+#
+# Conclusion for positive: The model is reasonably effective at identifying "positive" instances.
+#
+# --- Overall Averages and Accuracy ---
+#
+# Accuracy: 0.67 (67%)
+# This is the overall percentage of correct predictions ((4 correct positive + 0 correct negative) / 6 total samples = 66.7%).
+# This number can be very misleading! It makes the model seem okay, but it completely hides the fact that it's failing on one of the classes.
+#
+# Macro Avg: 0.40 (40%)
+# This is the simple average of the precision, recall, and F1-scores across both classes, treating each class equally.
+# This low score accurately reflects that the model is performing poorly overall because it fails on one class.
+#
+# Weighted Avg: 0.67 (67%)
+# This is the average weighted by the support of each class. Since the "positive" class has 5 samples and "negative" only has 1,
+# this average is heavily skewed towards the performance on the "positive" class.
+#
+# --- The Main Takeaway ---
+# A small, imbalanced dataset can cause a model to learn a lazy strategy: it becomes biased towards predicting the majority class.
+# It may perform reasonably well on the majority class but completely fail to learn the characteristics of the rare, minority class.
+# In a real-world scenario (like medical diagnosis or fraud detection), this would be a very dangerous model,
+# as it would miss every instance of the rare but critical event.
+
+
+#------------------------------------------------------------------#
+#Linear Support Vector Machine
+#------------------------------------------------------------------#
+# using LinearSVC algorithm
+from sklearn.svm import LinearSVC
+svm = LinearSVC(random_state=1).fit(X_train, y_train)
+y_pred_svm = svm.predict(X_test)
+print("\nAccuracy of SVM Model")
+print(accuracy_score(y_test, y_pred_svm))
+print("classification_report for SVM Model")
+print(classification_report(y_test, y_pred_svm, zero_division=0))
+
+# using SGDClassifier algorithm
+from sklearn.linear_model import SGDClassifier
+sgd = SGDClassifier(random_state=1).fit(X_train, y_train)
+y_pred_sgd = sgd.predict(X_test)
+print("\nAccuracy of SGD Model")
+print(accuracy_score(y_test, y_pred_sgd))
+print("classification_report for SGD Model")
+print(classification_report(y_test, y_pred_sgd, zero_division=0))
+
